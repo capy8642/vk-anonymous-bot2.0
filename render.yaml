@@ -3,11 +3,9 @@ services:
     name: vk-anonymous-bot
     runtime: python
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "gunicorn bot:app & python bot.py"
+    startCommand: "python bot.py"
     envVars:
       - key: VK_TOKEN
         sync: false
       - key: ADMIN_ID
         sync: false
-      - key: PORT
-        value: 10000
