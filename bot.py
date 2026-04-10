@@ -6,22 +6,14 @@ import os
 from flask import Flask
 from threading import Thread
 
-
-VK_TOKEN = os.environ.get("VK_TOKEN")       
-ADMIN_ID = int(os.environ.get("ADMIN_ID"))  
-
+VK_TOKEN = os.environ.get("VK_TOKEN")
+ADMIN_ID = int(os.environ.get("ADMIN_ID"))
 
 app = Flask(__name__)
 
 @app.route('/')
 def home():
-    
     return "Бот VK успешно запущен и работает!"
-
-def run_web_server():
-    
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)))
-
 
 def send_message(vk, peer_id, text):
     try:
@@ -62,10 +54,10 @@ def run_bot():
             print(f"Критическая ошибка в боте: {e}. Перезапуск через 10 секунд...")
             time.sleep(10)
 
-
 if __name__ == "__main__":
-    # Запускаем веб-сервер в фоновом потоке
-    web_thread = Thread(target=run_web_server)
-    web_thread.start()
-    # Запускаем основного бота
-    run_bot()
+    
+    bot_thread = Thread(target=run_bot)
+    bot_thread.start()
+    
+    port = int(os.environ.get('PORT', 10000))
+    app.run(host='0.0.0.0', port=port)
